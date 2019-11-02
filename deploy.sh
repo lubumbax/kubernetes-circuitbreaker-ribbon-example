@@ -102,7 +102,7 @@ do
     C) OPT_CLEAN=1 ;;
     B) OPT_BUILD=1 ;;
     D) OPT_DOCKER=1 ;;
-    m) OPT_SERVICE=$OPTARG ;;
+    s) OPT_SERVICE=$OPTARG ;;
     *) echo "$opt - Unimplemented option." ; usage ; exit 1 ;;
   esac
 done
