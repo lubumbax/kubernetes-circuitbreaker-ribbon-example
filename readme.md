@@ -1,5 +1,5 @@
 
-This example is based on the code at [Kubernetes Circuit Breaker & Load Balancer Example](https://github.com/spring-cloud/spring-cloud-kubernetes/tree/master/spring-cloud-kubernetes-examples/kubernetes-circuitbreaker-ribbon-example_)
+This example is based on the code at [Kubernetes Circuit Breaker & Load Balancer Example](https://github.com/spring-cloud/spring-cloud-kubernetes/tree/master/spring-cloud-kubernetes-examples/kubernetes-circuitbreaker-ribbon-example)
 I am using the code from that repository to test Ribbon and Hystrix circuit breaker in Spring Cloud Kubernetes.
 
 Here are some changes that I am introducing:
