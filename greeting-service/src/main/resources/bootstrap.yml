@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: greeting-service
+  cloud:
+    kubernetes:
+      reload:
+        enabled: true
+        mode: polling
+        period: 5000
+      config:
+        sources:
+          - name: other
+          - name: ${spring.application.name}
+
+backend:
+  ribbon:
+    eureka:
+      enabled: false
+    client:
+      enabled: true
+    ServerListRefreshInterval: 5000
+
+hystrix.command.BackendCall.execution.isolation.thread.timeoutInMilliseconds: 5000
+hystrix.threadpool.BackendCallThread.coreSize: 5

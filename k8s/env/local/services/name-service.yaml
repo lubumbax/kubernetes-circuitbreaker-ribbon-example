@@ -1,0 +1,51 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: name
+  namespace: examples
+  labels:
+    app: name-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: name-service
+  template:
+    metadata:
+      name: name
+      labels:
+        app: name-service
+    spec:
+      serviceAccountName: examples-service-account
+      containers:
+        - name: name
+          image: examples/name-service:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8102
+          envFrom:
+            - configMapRef:
+                name: name-config
+          env:
+            - name: JAVA_OPTS
+              value: -Xmx256m -Xms256m
+            - name: SPRING_APPLICATION_NAME
+              value: "name-service"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: name
+  namespace: examples
+  labels:
+    svc: name
+spec:
+  selector:
+    app: name-service
+  ports:
+    - port: 8102
+      targetPort: 8102
+      nodePort: 30302
+  type: NodePort
+  #type: ClusterIP

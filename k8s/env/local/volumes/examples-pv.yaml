@@ -1,0 +1,17 @@
+# You may want to mount a host directory into the vm's persistent volume, eg:
+#     $ minikube mount /tmp/eutickets-poc/pv/barcode:/var/pv/eutickets-poc/barcode
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: examples-pv
+  namespace: examples
+spec:
+  #storageClassName: standard
+  storageClassName: manual
+  persistentVolumeReclaimPolicy: Recycle
+  capacity:
+    storage: 100Mi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /var/pv/examples/

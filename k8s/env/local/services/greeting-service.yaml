@@ -1,0 +1,75 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: greeting
+  namespace: examples
+  labels:
+    app: greeting-service
+spec:
+  replicas: 1
+  #strategy:
+  #  type: RollingUpdate
+  #  rollingUpdate:
+  #    maxUnavailable: 1
+  #    maxSurge: 1
+  selector:
+    matchLabels:
+      app: greeting-service
+  template:
+    metadata:
+      name: greeting
+      labels:
+        app: greeting-service
+    spec:
+      serviceAccountName: examples-service-account
+      volumes:
+        - name: greeting-pv-storage
+          persistentVolumeClaim:
+            claimName: greeting-pvc
+      containers:
+        - name: greeting
+          image: examples/greeting-service:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8101
+          envFrom:
+            - configMapRef:
+                name: greeting-config
+          env:
+            - name: JAVA_OPTS
+              value: -Xmx256m -Xms256m
+            - name: SPRING_APPLICATION_NAME
+              value: "greeting-service"
+          volumeMounts:
+            - mountPath: /var/examples-pv-storage
+              name: greeting-pv-storage
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: greeting-pvc
+  namespace: examples
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: greeting
+  namespace: examples
+  labels:
+    svc: greeting
+spec:
+  selector:
+    app: greeting-service
+  ports:
+    - port: 8101
+      targetPort: 8101
+      nodePort: 30301
+  type: NodePort

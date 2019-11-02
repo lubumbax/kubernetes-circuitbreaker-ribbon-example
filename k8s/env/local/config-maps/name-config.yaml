@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: name-config
+  namespace: examples
+data:
+  server.port: "8102"
+  management.endpoints.web.exposure.include: "*"
+  management.endpoint.health.enabled: "true"
+  management.endpoint.restart.enabled: "true"
+  management.endpoint.info.enabled: "true"

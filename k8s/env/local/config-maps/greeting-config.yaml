@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: greeting-config
+  namespace: examples
+data:
+  server.port: "8101"
+  examples.storage.path: /var/examples-pv-storage
+  management.endpoints.web.exposure.include: "*"
+  management.endpoint.health.enabled: "true"
+  management.endpoint.restart.enabled: "true"
+  management.endpoint.info.enabled: "true"
